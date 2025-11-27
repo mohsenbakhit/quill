@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.quill.controller.MainController"
+            prefWidth="1000" prefHeight="700">
+
+    <!-- Menu Bar -->
+    <top>
+        <VBox>
+            <MenuBar>
+                <Menu text="File">
+<!--                    <MenuItem text="New" onAction="#handleNew"/>-->
+<!--                    <MenuItem text="Open" onAction="#handleOpen"/>-->
+<!--                    <MenuItem text="Save" onAction="#handleSave"/>-->
+<!--                    <MenuItem text="Save As..." onAction="#handleSaveAs"/>-->
+<!--                    <SeparatorMenuItem/>-->
+<!--                    <MenuItem text="Export to PDF" onAction="#handleExportPDF"/>-->
+<!--                    <SeparatorMenuItem/>-->
+<!--                    <MenuItem text="Exit" onAction="#handleExit"/>-->
+                </Menu>
+                <Menu text="Edit">
+<!--                    <MenuItem text="Undo" onAction="#handleUndo"/>-->
+<!--                    <MenuItem text="Redo" onAction="#handleRedo"/>-->
+                    <SeparatorMenuItem/>
+                    <MenuItem text="Cut"/>
+                    <MenuItem text="Copy"/>
+                    <MenuItem text="Paste"/>
+                </Menu>
+                <Menu text="Format">
+<!--                    <MenuItem text="Scene Heading" onAction="#formatSceneHeading"/>-->
+<!--                    <MenuItem text="Action" onAction="#formatAction"/>-->
+<!--                    <MenuItem text="Character" onAction="#formatCharacter"/>-->
+<!--                    <MenuItem text="Dialogue" onAction="#formatDialogue"/>-->
+<!--                    <MenuItem text="Parenthetical" onAction="#formatParenthetical"/>-->
+<!--                    <MenuItem text="Transition" onAction="#formatTransition"/>-->
+                </Menu>
+                <Menu text="View">
+                    <CheckMenuItem text="Show Line Numbers" fx:id="lineNumbersToggle"/>
+                    <CheckMenuItem text="Show Page Breaks" fx:id="pageBreaksToggle"/>
+                </Menu>
+            </MenuBar>
+
+            <!-- Toolbar -->
+            <ToolBar>
+<!--                <Button text="Scene Heading" onAction="#formatSceneHeading"/>-->
+<!--                <Button text="Action" onAction="#formatAction"/>-->
+<!--                <Button text="Character" onAction="#formatCharacter"/>-->
+<!--                <Button text="Dialogue" onAction="#formatDialogue"/>-->
+                <Separator orientation="VERTICAL"/>
+                <ComboBox fx:id="formatComboBox" promptText="Format"/>
+            </ToolBar>
+        </VBox>
+    </top>
+
+    <!-- Main Editor Area -->
+    <center>
+        <SplitPane dividerPositions="0.2">
+            <!-- Scene Navigator -->
+            <ListView fx:id="sceneListView" prefWidth="200"/>
+
+            <!-- Text Editor -->
+            <TextArea fx:id="editorArea" wrapText="true"
+                      style="-fx-font-family: 'Courier New'; -fx-font-size: 12pt;"/>
+        </SplitPane>
+    </center>
+
+    <!-- Status Bar -->
+    <bottom>
+        <HBox spacing="10" style="-fx-padding: 5;">
+            <Label text="Page: " fx:id="pageLabel"/>
+            <Label text="1"/>
+            <Separator orientation="VERTICAL"/>
+            <Label text="Words: " fx:id="wordCountLabel"/>
+            <Label text="0"/>
+        </HBox>
+    </bottom>
+
+</BorderPane>
