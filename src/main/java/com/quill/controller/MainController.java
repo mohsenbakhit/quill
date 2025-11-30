@@ -9,4 +9,13 @@ public class MainController {
     private TextArea textArea;
 
 
+    @FXML
+    private void handleExit() {
+        System.exit(0);
+    }
+
+    @FXML
+    private void handleNew() {
+        textArea.clear();
+    }
 }

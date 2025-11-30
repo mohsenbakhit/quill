@@ -5,21 +5,21 @@
 
 <BorderPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.quill.controller.MainController"
-            prefWidth="1000" prefHeight="700">
+            prefWidth="1000" prefHeight="800">
 
     <!-- Menu Bar -->
     <top>
         <VBox>
             <MenuBar>
                 <Menu text="File">
-<!--                    <MenuItem text="New" onAction="#handleNew"/>-->
+                    <MenuItem text="New" onAction="#handleNew"/>
 <!--                    <MenuItem text="Open" onAction="#handleOpen"/>-->
 <!--                    <MenuItem text="Save" onAction="#handleSave"/>-->
 <!--                    <MenuItem text="Save As..." onAction="#handleSaveAs"/>-->
 <!--                    <SeparatorMenuItem/>-->
 <!--                    <MenuItem text="Export to PDF" onAction="#handleExportPDF"/>-->
 <!--                    <SeparatorMenuItem/>-->
-<!--                    <MenuItem text="Exit" onAction="#handleExit"/>-->
+                    <MenuItem text="Exit" onAction="#handleExit"/>
                 </Menu>
                 <Menu text="Edit">
 <!--                    <MenuItem text="Undo" onAction="#handleUndo"/>-->
