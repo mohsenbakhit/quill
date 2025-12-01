@@ -57,13 +57,23 @@
 
     <!-- Main Editor Area -->
     <center>
-        <SplitPane dividerPositions="0.2">
+        <SplitPane dividerPositions="0.2, 0.6">
             <!-- Scene Navigator -->
             <ListView fx:id="sceneListView" prefWidth="200"/>
 
             <!-- Text Editor -->
-            <TextArea fx:id="editorArea" wrapText="true"
-                      style="-fx-font-family: 'Courier New'; -fx-font-size: 12pt;"/>
+            <VBox>
+                <Label text="Editor" style="-fx-font-weight: bold; -fx-padding: 5;"/>
+                <TextArea fx:id="editorArea" wrapText="true" VBox.vgrow="ALWAYS"
+                          style="-fx-font-family: 'Courier New'; -fx-font-size: 12pt;"/>
+            </VBox>
+
+            <!-- Preview Area -->
+            <VBox>
+                <Label text="Preview" style="-fx-font-weight: bold; -fx-padding: 5;"/>
+                <TextArea fx:id="previewArea" wrapText="true" editable="false" VBox.vgrow="ALWAYS"
+                          style="-fx-font-family: 'Courier New'; -fx-font-size: 12pt; -fx-background-color: #f9f9f9;"/>
+            </VBox>
         </SplitPane>
     </center>
 

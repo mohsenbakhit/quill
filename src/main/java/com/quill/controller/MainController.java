@@ -8,6 +8,14 @@ public class MainController {
     @FXML
     private TextArea textArea;
 
+    @FXML
+    private TextArea previewArea;
+
+    @FXML
+    public void initialize() {
+
+    }
+
 
     @FXML
     private void handleExit() {
