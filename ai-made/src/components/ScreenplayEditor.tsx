@@ -7,9 +7,12 @@ import {
   SCREENPLAY_TYPES,
   type ScreenplayType,
 } from "@/lib/screenplay-extension";
+import { BaseDirectory, exists, readTextFile, writeTextFile } from "@tauri-apps/plugin-fs";
 
 const STORAGE_KEY = "scenecraft:doc:v1";
 const TITLE_KEY = "scenecraft:title:v1";
+
+const DEFAULT_DOCUMENT = "quill/script.json";
 
 const STARTER_DOC = {
   type: "doc",
@@ -42,9 +45,7 @@ const STARTER_DOC = {
     {
       type: "paragraph",
       attrs: { screenplayType: "dialogue" },
-      content: [
-        { type: "text", text: "One more cup. Then the words come. That's the deal." },
-      ],
+      content: [{ type: "text", text: "One more cup. Then the words come. That's the deal." }],
     },
     {
       type: "paragraph",
@@ -53,6 +54,19 @@ const STARTER_DOC = {
     },
   ],
 };
+
+async function loadDocument() {
+  if (!await exists(DEFAULT_DOCUMENT, { baseDir: BaseDirectory.AppData })) {
+    return null;
+  }
+
+  return JSON.parse(await readTextFile(DEFAULT_DOCUMENT, { baseDir: BaseDirectory.AppData }));
+}
+async function saveDocument(title: string, content: unknown) {
+  await writeTextFile(DEFAULT_DOCUMENT, JSON.stringify({ title, content }, null, 2), {
+    baseDir: BaseDirectory.AppData,
+  });
+}
 
 function useHydrated() {
   const [h, setH] = useState(false);
@@ -187,9 +201,7 @@ export function ScreenplayEditor() {
             <span className="sp-meta-dot">•</span>
             <span>~{pages} pg</span>
             <span className="sp-meta-dot">•</span>
-            <span className={saved ? "sp-saved" : "sp-unsaved"}>
-              {saved ? "Saved" : "Saving…"}
-            </span>
+            <span className={saved ? "sp-saved" : "sp-unsaved"}> {saved ? "Saved" : "Saving…"} </span>
           </div>
         </div>
         <div className="sp-toolbar" role="toolbar" aria-label="Element type">
