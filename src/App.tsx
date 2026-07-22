@@ -1,10 +1,12 @@
+import { Toolbar } from './components/Toolbar'
 import { ScreenplayEditor } from './ScreenplayEditor'
 import './styles/screenplay.css'
+import './styles/toolbar.css'
 
 function App() {
   return (
     <div className="app">
-      <h1>Quill</h1>
+      <Toolbar />
       <ScreenplayEditor />
     </div>
   )

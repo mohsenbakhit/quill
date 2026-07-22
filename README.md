@@ -66,8 +66,8 @@ quill/
 
 ## Roadmap
 
-- [ ] Core screenplay schema (Scene Heading, Action, Character, Dialogue, Parenthetical, Transition)
-- [ ] Auto-formatting and element transitions
+- [x] Core screenplay schema (Scene Heading, Action, Character, Dialogue, Parenthetical, Transition)
+- [x] Auto-formatting and element transitions
 - [ ] PDF export
 - [ ] FDX import/export
 - [ ] Revision mode with colored pages

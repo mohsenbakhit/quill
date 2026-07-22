@@ -1,13 +1,17 @@
-import { Editor } from "@tiptap/react";
+import { useState, useEffect } from "react";
+import { FileMenu } from "./FileMenu";
+import { ExportMenu } from "./ExportMenu";
 
-interface ToolbarProps {
-  editor: Editor | null
-}
-export function Toolbar({ editor }: ToolbarProps) {
-  if (!editor) return null;
+
+export function Toolbar() {
   return (
-      <button onClick={() => editor.chain().focus().setNode('character').run()}>
-        Character
-      </button>
-    )
+    <div className="heading">
+      <h1 id="title" >Quill</h1>
+      <div>
+        <FileMenu />
+        <ExportMenu />
+
+      </div>
+    </div>
+  )
 }

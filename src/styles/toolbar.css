@@ -1,0 +1,22 @@
+.heading {
+    padding: 0.5in 1in;
+    font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+}
+.heading h1{
+    font-size: 24pt;
+}
+
+.toolbar-menu {
+    position: relative;
+    margin: 15pt;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+}
+
+.dropdown-button {
+    margin-top: 5pt;
+}
