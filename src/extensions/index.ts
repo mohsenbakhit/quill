@@ -1,3 +1,4 @@
+// extensions/index.ts
 import Text from '@tiptap/extension-text'
 import { ScreenplayDocument } from '../nodes/Document'
 import {
@@ -7,7 +8,8 @@ import {
   Dialogue,
   Parenthetical,
   Transition,
-} from '../nodes/ScreenplayNodes'
+} from '../nodes/screenplayNodes'
+import { ElementTransitions } from './ElementTransitions'
 
 export const screenplayExtensions = [
   ScreenplayDocument,
@@ -18,4 +20,5 @@ export const screenplayExtensions = [
   Dialogue,
   Parenthetical,
   Transition,
+  ElementTransitions,
 ]

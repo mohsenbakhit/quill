@@ -1,7 +1,9 @@
 import { ScreenplayEditor } from './Editor'
-const App = () => {
+import './styles/screenplay.css'
+
+function App() {
   return (
-    <div className="card">
+    <div className="app">
       <ScreenplayEditor />
     </div>
   )

@@ -1,4 +1,4 @@
-import { Extension } from "@tiptap/core";
+import { Extension } from '@tiptap/core'
 
 const ENTER_MAP: Record<string, string> = {
   sceneHeading: 'action',
@@ -24,13 +24,19 @@ export const ElementTransitions = Extension.create({
         const { $from } = this.editor.state.selection
         const type = $from.parent.type.name
         const next = ENTER_MAP[type]
-        return next ? this.editor.commands.setNode(next) : false
+        if (!next) return false
+
+        return this.editor.chain().splitBlock().setNode(next).run()
       },
       Tab: () => {
         const { $from } = this.editor.state.selection
         const type = $from.parent.type.name
         const next = TAB_MAP[type]
-        return next ? this.editor.commands.setNode(next) : false
+
+        if (next) {
+          this.editor.commands.setNode(next)
+        }
+        return true // always swallow Tab so focus doesn't leave the editor
       },
     }
   },
