@@ -1,0 +1,40 @@
+@import "tailwindcss";
+@font-face {
+  font-family: 'Courier Prime';
+  src: url('/fonts/CourierPrime-Regular.ttf') format('truetype');
+}
+body {
+  font-family: 'Courier Prime','Courier New', monospace;
+  font-size: 12pt;
+}
+.screenplay-page {
+    padding: 1in 1in 1in 1.5in; /* top right bottom left */
+    width: 11in;
+    margin-left: auto;
+    margin-right: auto;
+}
+.screenplay-scene-heading {
+    text-transform: uppercase;
+    margin-left: 0;
+    margin-right: auto;
+
+}
+.screenplay-action {
+  margin-left: 0;      /* matches container's 1.5" baseline */
+}
+
+.screenplay-dialogue {
+  margin-left: 1in;    /* 2.5" − 1.5" baseline */
+  max-width: 4in;       /* 8.5" page − 2.5" left − 2.0" right */
+}
+
+.screenplay-parenthetical {
+  margin-left: 1.6in;  /* 3.1" − 1.5" baseline */
+  max-width: 2.9in;     /* 8.5" page − 3.1" left − 2.5" right */
+  font-style: italic;
+}
+
+.screenplay-transition {
+  text-transform: uppercase;
+  text-align: right;    /* 5.5" left / 1.0" right ≈ right-aligned within the baseline margins already, no offset needed */
+}

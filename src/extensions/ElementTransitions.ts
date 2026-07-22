@@ -25,14 +25,14 @@ export const ElementTransitions = Extension.create({
         const type = $from.parent.type.name
         const next = ENTER_MAP[type]
         if (!next) return false
-
+        console.log(type)
         return this.editor.chain().splitBlock().setNode(next).run()
       },
       Tab: () => {
         const { $from } = this.editor.state.selection
         const type = $from.parent.type.name
         const next = TAB_MAP[type]
-
+        console.log(type)
         if (next) {
           this.editor.commands.setNode(next)
         }

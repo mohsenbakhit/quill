@@ -12,5 +12,5 @@ export function ScreenplayEditor() {
     },
   })
 
-  return <EditorContent editor={editor} />
+  return <EditorContent editor={editor} className="screenplay-page"/>
 }
