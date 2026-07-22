@@ -1,9 +1,8 @@
-import Editor from './editor/Editor'
-
+import { ScreenplayEditor } from './Editor'
 const App = () => {
   return (
     <div className="card">
-      <Editor />
+      <ScreenplayEditor />
     </div>
   )
 }

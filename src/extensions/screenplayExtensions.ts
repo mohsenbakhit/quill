@@ -1,6 +1,6 @@
 import { Extension } from "@tiptap/core";
 
-const ENTER_MAP = {
+const ENTER_MAP: Record<string, string> = {
   sceneHeading: 'action',
   action: 'action',
   character: 'dialogue',
@@ -9,7 +9,7 @@ const ENTER_MAP = {
   transition: 'sceneHeading',
 }
 
-const TAB_MAP = {
+const TAB_MAP: Record<string, string> = {
   action: 'character',
   character: 'parenthetical',
   dialogue: 'parenthetical',

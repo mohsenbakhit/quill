@@ -1,4 +1,4 @@
-import { Node, mergeAttributes } from '@tiptap/core';
+import { Node, mergeAttributes } from '@tiptap/core'
 
 export const SceneHeading = Node.create({
   name: 'sceneHeading',
@@ -22,11 +22,11 @@ export const SceneHeading = Node.create({
       Tab: () => false,
     }
   },
-});
+})
 
-export const action = Node.create({
+export const Action = Node.create({
   name: 'action',
-  group: 'block+',
+  group: 'block',
   content: 'text*',
 
   parseHTML() {
@@ -46,9 +46,9 @@ export const action = Node.create({
       Tab: () => this.editor.commands.setNode('character'),
     }
   },
-});
+})
 
-export const character = Node.create({
+export const Character = Node.create({
   name: 'character',
   group: 'block',
   content: 'text*',
@@ -70,9 +70,9 @@ export const character = Node.create({
       Tab: () => this.editor.commands.setNode('parenthetical'),
     }
   },
-});
+})
 
-export const dialogue = Node.create({
+export const Dialogue = Node.create({
   name: 'dialogue',
   group: 'block',
   content: 'text*',
@@ -94,9 +94,9 @@ export const dialogue = Node.create({
       Tab: () => this.editor.commands.setNode('parenthetical'),
     }
   },
-});
+})
 
-export const parenthetical = Node.create({
+export const Parenthetical = Node.create({
   name: 'parenthetical',
   group: 'block',
   content: 'text*',
@@ -118,9 +118,9 @@ export const parenthetical = Node.create({
       Tab: () => false,
     }
   },
-});
+})
 
-export const transition = Node.create({
+export const Transition = Node.create({
   name: 'transition',
   group: 'block',
   content: 'text*',
@@ -142,4 +142,4 @@ export const transition = Node.create({
       Tab: () => false,
     }
   },
-});
+})
