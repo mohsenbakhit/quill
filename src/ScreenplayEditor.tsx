@@ -1,16 +1,9 @@
 import { useEditor, EditorContent } from '@tiptap/react'
 import { screenplayExtensions } from './extensions'
+import { FileMenuProps } from "./utils/interfaces";
 
-export function ScreenplayEditor() {
-  const editor = useEditor({
-    extensions: screenplayExtensions,
-    content: {
-      type: 'doc',
-      content: [
-        { type: 'sceneHeading', content: [{ type: 'text', text: 'INT. COFFEE SHOP - DAY' }] },
-      ],
-    },
-  })
+export function ScreenplayEditor({editor}: FileMenuProps) {
+
 
   return <EditorContent editor={editor} className="screenplay-page"/>
 }

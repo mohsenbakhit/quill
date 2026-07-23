@@ -12,8 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "quill",
-        "fullscreen": true
+        "title": "quill"
       }
     ],
     "security": {
