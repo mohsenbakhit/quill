@@ -9,7 +9,7 @@ export function Toolbar({ editor, isDirty, setIsDirty }: FileMenuProps) {
       <h1 id="title" >Quill</h1>
       <div>
         <FileMenu editor={editor} isDirty={isDirty} setIsDirty={setIsDirty}/>
-        <ExportMenu />
+        <ExportMenu editor={editor} isDirty={isDirty} setIsDirty={setIsDirty}/>
 
       </div>
     </div>

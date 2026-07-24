@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { save, message, open, confirm } from '@tauri-apps/plugin-dialog';
-import { readTextFile, create, exists, writeTextFile } from '@tauri-apps/plugin-fs';
+import { readTextFile, writeTextFile } from '@tauri-apps/plugin-fs';
 import { FileMenuProps } from "../utils/interfaces";
-import { SceneHeading } from "../nodes/screenplayNodes";
 import { getErrorMessage } from "../utils/utils";
 
 const emptyDoc = {
