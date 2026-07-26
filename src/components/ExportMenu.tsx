@@ -33,7 +33,7 @@ export function ExportMenu({ editor, isDirty, setIsDirty }: FileMenuProps) {
       {isOpen && (
         <div className="dropdown-menu">
           <button className="dropdown-button w-full text-left px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100">Export to PDF</button>
-          <button className="dropdown-button w-full text-left px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100">Export to FDX</button>
+          {/*<button className="dropdown-button w-full text-left px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100">Export to FDX</button>*/}
           <button onClick={handleFountain} className="dropdown-button w-full text-left px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100">Export to Fountain</button>
         </div>
       )}
