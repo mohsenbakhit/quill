@@ -38,3 +38,16 @@ body {
   text-transform: uppercase;
   text-align: right;    /* 5.5" left / 1.0" right ≈ right-aligned within the baseline margins already, no offset needed */
 }
+
+.page-break-before {
+  margin-top: 2in;
+  padding-top: 1px;
+}
+.page-break-before::before {
+  content: "Page " attr(data-page-number) ".";
+  position: absolute;
+  top: -1.5in;
+  right: 0;
+  font-size: 12pt;
+  font-family: 'Courier Prime', 'Courier New', monospace;
+}
