@@ -23,6 +23,13 @@ body {
   margin-left: 0;      /* matches container's 1.5" baseline */
 }
 
+.screenplay-character {
+    margin-left: 2.9in;   /* 2.2" from page edge (2.2 - 1.5) */
+    max-width: 3.5in;
+    text-transform: uppercase;
+    font-weight: bold;    /* Optional; many screenplay editors don't use bold */
+}
+
 .screenplay-dialogue {
   margin-left: 1in;    /* 2.5" − 1.5" baseline */
   max-width: 4in;       /* 8.5" page − 2.5" left − 2.0" right */
@@ -50,4 +57,50 @@ body {
   right: 0;
   font-size: 12pt;
   font-family: 'Courier Prime', 'Courier New', monospace;
+}
+
+@media print {
+  .toolbar {
+    display: none;
+  }
+
+  .page-scroll-area {
+    padding: 0;
+    background: none;
+    display: block;
+  }
+
+  .screenplay-page {
+    box-shadow: none;
+    width: auto;
+    min-height: auto;
+  }
+
+  .page-break-before {
+    break-before: page;
+    margin-top: 0;
+  }
+
+  .page-break-before::before {
+    display: none;
+  }
+
+  @page {
+    margin: 1in 1in 1in 1.5in;
+  }
+
+  .screenplay-page {
+    counter-reset: page 1;
+  }
+
+  .page-break-before {
+    counter-increment: page;
+  }
+
+  .page-break-before::after {
+    content: counter(page) ".";
+    position: fixed;
+    top: 0.5in;
+    right: 1in;
+  }
 }

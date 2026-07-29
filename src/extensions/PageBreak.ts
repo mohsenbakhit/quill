@@ -37,7 +37,6 @@ export const PageBreak = Extension.create({
             requestAnimationFrame(() => {
               const dom = editorView.dom as HTMLElement
               const breakIndices = calculatePageBreaks(dom, PAGE_CONTENT_HEIGHT_PX)
-              console.log('1. breakIndices:', breakIndices) // ← checkpoint 1
 
               const changed =
                 breakIndices.length !== lastBreakIndices.length ||
@@ -61,7 +60,6 @@ export const PageBreak = Extension.create({
                 }
               })
 
-              console.log('2. decorations created:', decorations.length) // ← checkpoint 2
 
               const newSet = DecorationSet.create(editorView.state.doc, decorations)
               editorView.dispatch(editorView.state.tr.setMeta(pageBreakPluginKey, newSet))
