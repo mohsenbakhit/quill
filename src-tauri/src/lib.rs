@@ -5,7 +5,8 @@ use screenplay::Block;
 
 #[tauri::command]
 async fn export_to_pdf(screenplay: Vec<Block>) {
-    pdf::export(screenplay).map_err(|e| e.to_string())
+    println!("Hello");
+    // pdf::export(screenplay)
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]

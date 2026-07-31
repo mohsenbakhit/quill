@@ -1,6 +1,6 @@
 use serde::Deserialize;
 
-#[derive(Debug, Deserialize)]
+#[derive(Deserialize)]
 #[serde(tag = "type", rename_all = "camelCase")]
 pub enum Block {
     Scene { text: String },
