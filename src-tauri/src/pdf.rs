@@ -1,68 +1,67 @@
-use printpdf::{Mm, Pt};
+use std::{fs, path::Path};
+
+use printpdf::{
+    BuiltinFont, Mm, Op, PdfDocument, PdfFontHandle, PdfPage, PdfSaveOptions, Pt, TextItem,
+    TextMatrix,
+};
 
 use crate::screenplay::Block;
-use std::fs;
 
-const POINTS_PER_INCH: f64 = 72.0;
-const PAGE_HEIGHT_IN: f64 = 11.0;
-const TOP_MARGIN_IN: f64 = 1.0;
-const BOTTOM_MARGIN_IN: f64 = 1.0;
-const PAGE_CONTENT_HEIGHT_PT: f64 =
-    (PAGE_HEIGHT_IN - TOP_MARGIN_IN - BOTTOM_MARGIN_IN) * POINTS_PER_INCH;
-const LINE_HEIGHT_PT: f64 = 12.0;
+// US Letter: 8.5 x 11 inches.
+const PAGE_WIDTH: Mm = Mm(215.9);
+const PAGE_HEIGHT: Mm = Mm(279.4);
 
-fn count_wrapped_lines(text: &str, max_chars: usize) -> usize {
-    if text.is_empty() {
-        return 1;
-    }
+const LEFT_MARGIN: Mm = Mm(38.1); // 1.5 inches
+const CHARACTER_X: Mm = Mm(93.98);
+const DIALOGUE_X: Mm = Mm(63.5);
+const PARENTHETICAL_X: Mm = Mm(78.74);
+const TRANSITION_X: Mm = Mm(152.4);
 
-    let mut lines = 1;
-    let mut chars = 0;
+const TOP_MARGIN: Mm = Mm(25.4); // 1 inch
+const FONT_SIZE: Pt = Pt(12.0);
+const LINE_HEIGHT: Mm = Mm(4.2333); // 12 points, converted to millimetres
 
-    for word in text.split(' ') {
-        let addition = if chars == 0 {
-            word.len()
-        } else {
-            word.len() + 1
+pub fn export(blocks: Vec<Block>, output_path: &Path) -> Result<(), Box<dyn std::error::Error>> {
+    let mut document = PdfDocument::new("Quill Screenplay");
+
+    let mut operations = vec![
+        Op::StartTextSection,
+        Op::SetFont {
+            font: PdfFontHandle::Builtin(BuiltinFont::Courier),
+            size: FONT_SIZE,
+        },
+        Op::SetLineHeight { lh: FONT_SIZE },
+    ];
+
+    let mut y = PAGE_HEIGHT - TOP_MARGIN;
+
+    for block in blocks {
+        let (x, text) = match block {
+            Block::Scene { text } => (LEFT_MARGIN, text),
+            Block::Action { text } => (LEFT_MARGIN, text),
+            Block::Character { text } => (CHARACTER_X, text),
+            Block::Dialogue { text } => (DIALOGUE_X, text),
+            Block::Parenthetical { text } => (PARENTHETICAL_X, text),
+            Block::Transition { text } => (TRANSITION_X, text),
         };
 
-        if chars + addition > max_chars {
-            lines += 1;
-            chars = word.len();
-        } else {
-            chars += addition;
-        }
+        operations.push(Op::SetTextMatrix {
+            matrix: TextMatrix::Translate(x.into(), y.into()),
+        });
+        operations.push(Op::ShowText {
+            items: vec![TextItem::Text(text)],
+        });
+
+        y -= LINE_HEIGHT;
     }
 
-    lines
-}
+    operations.push(Op::EndTextSection);
 
-pub fn export(blocks: Vec<Block>) -> Result<(), Box<dyn std::error::Error>> {
-    let mut file = fs::File::open("temp.pdf");
+    let page = PdfPage::new(PAGE_WIDTH, PAGE_HEIGHT, operations);
+    let bytes = document
+        .with_pages(vec![page])
+        .save(&PdfSaveOptions::default(), &mut Vec::new());
+
+    fs::write(output_path, bytes)?;
     Ok(())
-}
-
-pub fn move_down(y: &mut Mm, distance: Mm) {
-    *y -= distance;
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn empty_string_is_one_line() {
-        assert_eq!(count_wrapped_lines("", 60), 1);
-    }
-
-    #[test]
-    fn short_line_fits_on_one_line() {
-        assert_eq!(count_wrapped_lines("short line", 60), 1);
-    }
-
-    #[test]
-    fn long_paragraph_wraps_correctly() {
-        let text = "Sarah enters the coffee shop, glancing around nervously before spotting Marcus in the corner booth.";
-        assert_eq!(count_wrapped_lines(text, 60), 2);
-    }
 }

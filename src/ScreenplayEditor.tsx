@@ -1,5 +1,4 @@
-import { useEditor, EditorContent } from '@tiptap/react'
-import { screenplayExtensions } from './extensions'
+import { EditorContent } from '@tiptap/react'
 import { FileMenuProps } from "./utils/interfaces";
 
 export function ScreenplayEditor({editor}: FileMenuProps) {

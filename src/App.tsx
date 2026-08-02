@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Toolbar } from './components/Toolbar';
 import { ScreenplayEditor } from './ScreenplayEditor';
-import { useEditor, EditorContent } from '@tiptap/react';
+import { useEditor } from '@tiptap/react';
 import { screenplayExtensions } from './extensions';
 
 import './styles/screenplay.css'

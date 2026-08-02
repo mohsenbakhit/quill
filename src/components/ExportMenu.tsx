@@ -5,7 +5,7 @@ import { save, message } from '@tauri-apps/plugin-dialog';
 import { writeTextFile } from '@tauri-apps/plugin-fs';
 import { invoke } from "@tauri-apps/api/core";
 
-export function ExportMenu({ editor, isDirty, setIsDirty }: FileMenuProps) {
+export function ExportMenu({ editor }: FileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   if (!editor) return null;
@@ -30,8 +30,23 @@ export function ExportMenu({ editor, isDirty, setIsDirty }: FileMenuProps) {
 
 
     const handlePdf = async () => {
-        const content = formatEditorContent(editor.getJSON());
-        await invoke("export_to_pdf", { screenplay:content });
+        try {
+            const path = await save({
+                filters: [{ name: 'PDF', extensions: ['pdf'] }],
+            });
+            if (path === null) return;
+
+            const content = formatEditorContent(editor.getJSON());
+            await invoke("export_to_pdf", {
+                screenplay: content,
+                outputPath: path,
+            });
+        } catch (err) {
+            const msg = err instanceof Error ? err.message : String(err);
+            await message(msg, { title: 'PDF Export Failed', kind: 'error' });
+        } finally {
+            setIsOpen(false);
+        }
     }
   return (
     <span className="toolbar-menu">
