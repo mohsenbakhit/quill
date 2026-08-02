@@ -1,4 +1,7 @@
+use printpdf::{Mm, Pt};
+
 use crate::screenplay::Block;
+use std::fs;
 
 const POINTS_PER_INCH: f64 = 72.0;
 const PAGE_HEIGHT_IN: f64 = 11.0;
@@ -35,7 +38,12 @@ fn count_wrapped_lines(text: &str, max_chars: usize) -> usize {
 }
 
 pub fn export(blocks: Vec<Block>) -> Result<(), Box<dyn std::error::Error>> {
+    let mut file = fs::File::open("temp.pdf");
     Ok(())
+}
+
+pub fn move_down(y: &mut Mm, distance: Mm) {
+    *y -= distance;
 }
 
 #[cfg(test)]
