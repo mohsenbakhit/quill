@@ -6,17 +6,138 @@
     font-size: 24pt;
 }
 
+.toolbar-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.toolbar-menu-group {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+}
+
+.toolbar-divider {
+    width: 1px;
+    height: 34px;
+    flex-shrink: 0;
+    background: #d6d3d1;
+}
+
 .toolbar-menu {
     position: relative;
-    margin: 15pt;
+    display: inline-block;
+    margin: 0 6px 0 0;
 }
 
 .dropdown-menu {
     position: absolute;
     top: 100%;
     left: 0;
+    z-index: 10;
+    display: flex;
+    min-width: 160px;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 6px;
+    padding: 6px;
+    border: 1px solid #d6d3d1;
+    border-radius: 10px;
+    background: #f5f5f4;
+    box-shadow: 0 4px 12px rgba(28, 25, 23, 0.12);
+}
+
+.toolbar-action-button,
+.dropdown-button {
+    margin: 0;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    color: #57534e;
+    background: transparent;
+    box-shadow: none;
+    font-size: 0.8rem;
+    line-height: 1.2;
+}
+
+.toolbar-action-button {
+    padding: 6px 10px;
+}
+
+.toolbar-action-button:hover,
+.toolbar-action-button.active,
+.dropdown-button:hover {
+    border-color: #a8a29e;
+    background: #e7e5e4;
+}
+
+.toolbar-action-button.active {
+    border-color: #57534e;
+    color: #fff;
+    background: #57534e;
 }
 
 .dropdown-button {
-    margin-top: 5pt;
+    width: 100%;
+    padding: 7px 10px;
+    text-align: left;
+}
+
+.node-type-bar {
+    display: flex;
+    flex: 1;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 0;
+    padding: 6px;
+    align-items: center;
+    border: 1px solid #d6d3d1;
+    border-radius: 10px;
+    background: #f5f5f4;
+}
+
+.node-type-button {
+    margin: 0;
+    padding: 6px 10px;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    color: #57534e;
+    background: transparent;
+    box-shadow: none;
+    font-size: 0.8rem;
+    line-height: 1.2;
+}
+
+.node-type-button:hover {
+    border-color: #a8a29e;
+    background: #e7e5e4;
+}
+
+.node-type-button.active {
+    border-color: #57534e;
+    color: #fff;
+    background: #57534e;
+}
+
+.node-type-button:disabled {
+    cursor: default;
+    opacity: 0.5;
+}
+
+.status-bar {
+    flex-shrink: 0;
+    color: #78716c;
+    font-size: 0.8rem;
+    white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+    .toolbar-controls {
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .status-bar {
+        width: 100%;
+    }
 }

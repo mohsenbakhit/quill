@@ -70,13 +70,19 @@ export function FileMenu({ editor, isDirty, setIsDirty }: FileMenuProps) {
 
   return (
     <span className="toolbar-menu">
-      <button onClick={() => setIsOpen(!isOpen)} className="px-3 py-1.5 text-lg rounded bg-gray-300 hover:bg-gray-100 text-gray-700"
-      >File</button>
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className={`toolbar-action-button${isOpen ? ' active' : ''}`}
+        aria-expanded={isOpen}
+      >
+        File
+      </button>
       {isOpen && (
         <div className="dropdown-menu">
-          <button onClick={handleNew} className="dropdown-button w-full text-left px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100">New</button>
-          <button onClick={handleOpen} className="dropdown-button w-full text-left px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100">Open</button>
-          <button onClick={handleSave} className="dropdown-button w-full text-left px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100">Save</button>
+          <button type="button" onClick={handleNew} className="dropdown-button">New</button>
+          <button type="button" onClick={handleOpen} className="dropdown-button">Open</button>
+          <button type="button" onClick={handleSave} className="dropdown-button">Save</button>
         </div>
       )}
     </span>

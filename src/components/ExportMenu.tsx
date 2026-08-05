@@ -50,12 +50,19 @@ export function ExportMenu({ editor }: FileMenuProps) {
     }
   return (
     <span className="toolbar-menu">
-      <button onClick={() => setIsOpen(!isOpen)} className="px-3 py-1.5 text-lg rounded bg-gray-300 hover:bg-gray-100 text-gray-700">Export</button>
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className={`toolbar-action-button${isOpen ? ' active' : ''}`}
+        aria-expanded={isOpen}
+      >
+        Export
+      </button>
       {isOpen && (
         <div className="dropdown-menu">
-              <button onClick={handlePdf} className="dropdown-button w-full text-left px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100">Export to PDF</button>
+              <button type="button" onClick={handlePdf} className="dropdown-button">Export to PDF</button>
           {/*<button className="dropdown-button w-full text-left px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100">Export to FDX</button>*/}
-          <button onClick={handleFountain} className="dropdown-button w-full text-left px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100">Export to Fountain</button>
+          <button type="button" onClick={handleFountain} className="dropdown-button">Export to Fountain</button>
         </div>
       )}
     </span>
