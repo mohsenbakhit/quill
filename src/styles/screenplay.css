@@ -6,17 +6,40 @@
 body {
   font-family: 'Courier Prime','Courier New', monospace;
   font-size: 12pt;
+  overflow: hidden;
+  background: #e5e5e5;
 }
+
+.app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+}
+
+.editor-view {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    justify-content: center;
+    overflow: auto;
+    padding: 32px;
+}
+
 .screenplay-page {
-    padding: 1in 1in 1in 1.5in; /* top right bottom left */
-    width: 11in;
-    margin-left: auto;
-    margin-right: auto;
+    width: 8.5in;
+    min-height: 11in;
+    padding: 1in 1in 1in 1.5in;
+    box-sizing: border-box;
+    background: white;
+
+
 }
 .screenplay-scene-heading {
     text-transform: uppercase;
     margin-left: 0;
     margin-right: auto;
+    font-weight: bold;
 
 }
 .screenplay-action {
@@ -24,15 +47,14 @@ body {
 }
 
 .screenplay-character {
-    margin-left: 2.9in;   /* 2.2" from page edge (2.2 - 1.5) */
-    max-width: 3.5in;
+    margin-left: 2.5in;   /* 2.2" from page edge (2.2 - 1.5) */
+    max-width: 1.0in;
     text-transform: uppercase;
-    font-weight: bold;    /* Optional; many screenplay editors don't use bold */
 }
 
 .screenplay-dialogue {
   margin-left: 1in;    /* 2.5" − 1.5" baseline */
-  max-width: 4in;       /* 8.5" page − 2.5" left − 2.0" right */
+  max-width: 3in;       /* 8.5" page − 2.5" left − 2.0" right */
 }
 
 .screenplay-parenthetical {

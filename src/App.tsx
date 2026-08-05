@@ -14,7 +14,7 @@ function App() {
     content: {
       type: 'doc',
       content: [
-        { type: 'sceneHeading', content: [{ type: 'text', text: 'INT. COFFEE SHOP - DAY' }] },
+        { type: 'sceneHeading', content: [{ type: 'text*', text: 'INT. COFFEE SHOP - DAY' }] },
       ],
     },
     onUpdate: () => {
@@ -23,8 +23,15 @@ function App() {
   })
   return (
     <div className="app">
-      <Toolbar editor={editor} isDirty={isDirty} setIsDirty={setIsDirty}/>
-      <ScreenplayEditor editor={editor} isDirty={isDirty}  setIsDirty={setIsDirty}/>
+      <header className="title-bar">
+        <Toolbar editor={editor} isDirty={isDirty} setIsDirty={setIsDirty}/>
+      </header>
+      <main className="editor-view">
+        <div className="screenplay-editor"
+          onClick={() => editor?.commands.focus('start')}>
+          <ScreenplayEditor editor={editor} isDirty={isDirty} setIsDirty={setIsDirty} />
+        </div>
+      </main>
     </div>
   )
 }
