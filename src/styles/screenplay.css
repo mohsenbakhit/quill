@@ -69,8 +69,22 @@ body {
 }
 
 .page-break-before {
+  position: relative;
   margin-top: 2in;
   padding-top: 1px;
+  border-top: 1px solid #d4d4d4;
+  z-index: 1;
+}
+.page-break-before::after {
+  content: "";
+  position: absolute;
+  top: -2in;
+  left: -1.5in;
+  width: 8.5in;
+  height: 2in;
+  background: #e5e5e5;
+  z-index: -1;
+  pointer-events: none;
 }
 .page-break-before::before {
   content: "Page " attr(data-page-number) ".";
@@ -79,6 +93,7 @@ body {
   right: 0;
   font-size: 12pt;
   font-family: 'Courier Prime', 'Courier New', monospace;
+  z-index: 1;
 }
 
 @media print {

@@ -28,7 +28,7 @@ function App() {
       </header>
       <main className="editor-view">
         <div className="screenplay-editor"
-          onClick={() => editor?.commands.focus('start')}>
+          onClick={() => {editor?.commands.focus()}}>
           <ScreenplayEditor editor={editor} isDirty={isDirty} setIsDirty={setIsDirty} />
         </div>
       </main>

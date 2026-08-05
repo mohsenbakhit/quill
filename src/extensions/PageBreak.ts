@@ -32,9 +32,13 @@ export const PageBreak = Extension.create({
 
         view(editorView) {
           let lastBreakIndices: number[] = []
+          let frame: number | null = null
 
           function recalculate() {
-            requestAnimationFrame(() => {
+            if (frame !== null) cancelAnimationFrame(frame)
+
+            frame = requestAnimationFrame(() => {
+              frame = null
               const dom = editorView.dom as HTMLElement
               const breakIndices = calculatePageBreaks(dom, PAGE_CONTENT_HEIGHT_PX)
 
@@ -68,9 +72,20 @@ export const PageBreak = Extension.create({
 
           recalculate()
 
+          const window = editorView.dom.ownerDocument.defaultView
+          const resizeObserver = new ResizeObserver(recalculate)
+          resizeObserver.observe(editorView.dom)
+          window?.addEventListener('resize', recalculate)
+          document.fonts?.ready.then(recalculate)
+
           return {
             update() {
               recalculate()
+            },
+            destroy() {
+              if (frame !== null) cancelAnimationFrame(frame)
+              resizeObserver.disconnect()
+              window?.removeEventListener('resize', recalculate)
             },
           }
         },
