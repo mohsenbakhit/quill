@@ -14,13 +14,14 @@
 
 - `src/main.tsx` mounts the React app; `src/App.tsx` wires the Tiptap editor, toolbar, and editor view.
 - Screenplay document types and transitions are defined in `src/nodes/` and `src/extensions/`; update `screenplayExtensions` when adding editor behavior.
-- `src/components/` contains UI, while `src/utils/` and `src/lib/` contain export, pagination, storage, and shared types.
-- `src-tauri/src/lib.rs` registers native commands and plugins. `screenplay.rs` defines the JSON payload for Rust commands and `pdf.rs` implements PDF generation.
-- Frontend PDF export calls the Rust `export_to_pdf` command; Fountain export is implemented in `src/utils/export.ts`.
+- `src/components/` contains UI, while `src/utils/` and `src/lib/` contain export, storage, and shared types.
+- `src-tauri/src/lib.rs` registers native commands and plugins. `screenplay.rs` defines the JSON payload, `layout.rs` owns screenplay geometry, and `pdf.rs` renders that layout.
+- `layout_screenplay` supplies the Tiptap preview placements and `export_to_pdf` renders the same Rust layout; Fountain export is implemented in `src/utils/export.ts`.
 - Tauri filesystem and dialog access is permissioned in `src-tauri/capabilities/default.json`; update it when adding new plugin APIs.
 
 ## Change Constraints
 
 - Keep the Tauri frontend contract aligned: Rust `Block` uses camelCase tagged JSON, and frontend `formatEditorContent` must produce the matching block types.
+- Keep layout rules in `src-tauri/src/layout.rs`; the React `RustLayout` extension must consume its response rather than recalculate pagination or block geometry.
 - Tauri expects the frontend dev server on port `1420`; preserve the strict-port and HMR settings unless changing the Tauri config with them.
 - `npm run build` typechecks only files included by `tsconfig.json` (`src`) plus the referenced Vite config; Rust verification is separate.

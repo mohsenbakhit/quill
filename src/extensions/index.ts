@@ -10,7 +10,7 @@ import {
   Transition,
 } from '../nodes/screenplayNodes'
 import { ElementTransitions } from './ElementTransitions'
-import { PageBreak } from './PageBreak'
+import { RustLayout } from './RustLayout'
 
 export const screenplayExtensions = [
   ScreenplayDocument,
@@ -22,5 +22,5 @@ export const screenplayExtensions = [
   Parenthetical,
   Transition,
   ElementTransitions,
-  PageBreak,
+  RustLayout,
 ]

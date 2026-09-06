@@ -1,4 +1,5 @@
 @import "tailwindcss";
+
 body {
   font-family: 'Courier New', Courier, monospace;
   font-size: 12pt;
@@ -7,137 +8,68 @@ body {
 }
 
 .app {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
 }
 
 .editor-view {
-    flex: 1;
-    min-height: 0;
-    display: flex;
-    justify-content: center;
-    overflow: auto;
-    padding: 32px;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  justify-content: center;
+  overflow: auto;
+  padding: 32px;
+}
+
+.screenplay-page-stack {
+  width: 8.5in;
+  position: relative;
+  box-sizing: border-box;
+  background: #e5e5e5;
 }
 
 .screenplay-page {
-    width: 8.5in;
-    min-height: 11in;
-    padding: 1in 1.5in;
-    box-sizing: border-box;
-    background: white;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    white 0,
+    white 11in,
+    #e5e5e5 11in,
+    #e5e5e5 13in
+  );
+  background-size: 100% 13in;
 }
 
 .screenplay-page > div {
-    line-height: 16px;
-    overflow-wrap: anywhere;
-}
-
-.screenplay-scene-heading {
-    text-transform: uppercase;
-    margin-left: 0;
-    margin-right: auto;
-    font-weight: bold;
-
-}
-.screenplay-action {
-  margin-left: 0;      /* matches container's 1.5" baseline */
-}
-
-.screenplay-character {
-    margin-left: 2.5in;   /* 4in from the page edge including page padding. */
-    max-width: 1.0in;
-    text-transform: uppercase;
-}
-
-.screenplay-dialogue {
-  margin-left: 1in;    /* 2.5in from the page edge including page padding. */
-  max-width: 3in;
-}
-
-.screenplay-parenthetical {
-  margin-left: 1.6in;  /* 3.1in from the page edge including page padding. */
-  max-width: 2.9in;
-  font-style: italic;
-}
-
-.screenplay-transition {
-  text-transform: uppercase;
-  text-align: right;    /* 5.5" left / 1.0" right ≈ right-aligned within the baseline margins already, no offset needed */
-}
-
-.page-break-before {
   position: relative;
-  margin-top: 2in;
-  padding-top: 1px;
-  border-top: 1px solid #d4d4d4;
-  z-index: 1;
+  min-height: 100%;
+  line-height: 16px;
 }
-.page-break-before::after {
-  content: "";
-  position: absolute;
-  top: -2in;
-  left: -1.5in;
-  width: 8.5in;
-  height: 2in;
-  background: #e5e5e5;
-  z-index: -1;
-  pointer-events: none;
+
+.rust-layout-block {
+  overflow-wrap: anywhere;
 }
-.page-break-before::before {
-  content: "Page " attr(data-page-number) ".";
+
+.screenplay-page-number {
   position: absolute;
-  top: -1.5in;
-  right: 0;
+  right: 1.5in;
   font-size: 12pt;
   font-family: 'Courier New', Courier, monospace;
-  z-index: 1;
+  pointer-events: none;
+  z-index: 2;
 }
 
 @media print {
-  .toolbar {
-    display: none;
-  }
-
-  .page-scroll-area {
-    padding: 0;
-    background: none;
-    display: block;
-  }
-
-  .screenplay-page {
-    box-shadow: none;
-    width: auto;
-    min-height: auto;
-  }
-
-  .page-break-before {
-    break-before: page;
-    margin-top: 0;
-  }
-
-  .page-break-before::before {
+  .toolbar,
+  .screenplay-page-number {
     display: none;
   }
 
   @page {
     margin: 1in 1in 1in 1.5in;
-  }
-
-  .screenplay-page {
-    counter-reset: page 1;
-  }
-
-  .page-break-before {
-    counter-increment: page;
-  }
-
-  .page-break-before::after {
-    content: counter(page) ".";
-    position: fixed;
-    top: 0.5in;
-    right: 1in;
   }
 }
