@@ -1,10 +1,6 @@
 @import "tailwindcss";
-@font-face {
-  font-family: 'Courier Prime';
-  src: url('/fonts/CourierPrime-Regular.ttf') format('truetype');
-}
 body {
-  font-family: 'Courier Prime','Courier New', monospace;
+  font-family: 'Courier New', Courier, monospace;
   font-size: 12pt;
   overflow: hidden;
   background: #e5e5e5;
@@ -36,6 +32,7 @@ body {
 
 .screenplay-page > div {
     line-height: 16px;
+    overflow-wrap: anywhere;
 }
 
 .screenplay-scene-heading {
@@ -50,19 +47,19 @@ body {
 }
 
 .screenplay-character {
-    margin-left: 2.5in;   /* 2.2" from page edge (2.2 - 1.5) */
+    margin-left: 2.5in;   /* 4in from the page edge including page padding. */
     max-width: 1.0in;
     text-transform: uppercase;
 }
 
 .screenplay-dialogue {
-  margin-left: 1in;    /* 2.5" − 1.5" baseline */
-  max-width: 3in;       /* 8.5" page − 2.5" left − 2.0" right */
+  margin-left: 1in;    /* 2.5in from the page edge including page padding. */
+  max-width: 3in;
 }
 
 .screenplay-parenthetical {
-  margin-left: 1.6in;  /* 3.1" − 1.5" baseline */
-  max-width: 2.9in;     /* 8.5" page − 3.1" left − 2.5" right */
+  margin-left: 1.6in;  /* 3.1in from the page edge including page padding. */
+  max-width: 2.9in;
   font-style: italic;
 }
 
@@ -95,7 +92,7 @@ body {
   top: -1.5in;
   right: 0;
   font-size: 12pt;
-  font-family: 'Courier Prime', 'Courier New', monospace;
+  font-family: 'Courier New', Courier, monospace;
   z-index: 1;
 }
 
