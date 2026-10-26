@@ -1,40 +1,75 @@
-@font-face {
-  font-family: 'Courier Prime';
-  src: url('/fonts/CourierPrime-Regular.ttf') format('truetype');
-  font-display: swap;
-}
-.screenplay-page {
-  width: 8.5in;
-  min-height: 11in;
-  padding: 1in 1in 1in 1.5in;
-  background: #fff;
-  outline: 1px solid #e0dfda;
-  box-shadow: 0 2px 8px #30342b0b, 0 16px 36px #30342b04;
-  color: #202520;
-  font-family: 'Courier Prime', 'Courier New', Courier, monospace;
+@import "tailwindcss";
+
+body {
+  font-family: 'Courier New', Courier, monospace;
   font-size: 12pt;
-  line-height: 1;
+  overflow: hidden;
+  background: #e5e5e5;
 }
-.screenplay-page .tiptap { outline: none; min-height: 9in; caret-color: #355d4f; }
-.screenplay-page .tiptap > div { position: relative; min-height: 1em; white-space: pre-wrap; overflow-wrap: anywhere; }
-.screenplay-page .tiptap > div + div { margin-top: 1em; }
-.screenplay-page .tiptap > div + .screenplay-scene-heading { margin-top: 2em; }
-.screenplay-page .screenplay-scene-heading, .screenplay-page .screenplay-character, .screenplay-page .screenplay-transition { text-transform: uppercase; }
-.screenplay-page .screenplay-character { margin-left: 2in; max-width: 4in; }
-.screenplay-page .screenplay-dialogue { margin-left: 1in; max-width: 3.5in; }
-.screenplay-page .screenplay-parenthetical { margin-left: 1.5in; max-width: 2.5in; }
-.screenplay-page .screenplay-character + .screenplay-dialogue,
-.screenplay-page .screenplay-character + .screenplay-parenthetical,
-.screenplay-page .screenplay-parenthetical + .screenplay-dialogue,
-.screenplay-page .screenplay-dialogue + .screenplay-parenthetical { margin-top: 0 !important; }
-.screenplay-page .screenplay-transition { text-align: right; }
-.screenplay-page .is-empty::before { content: attr(data-placeholder); float: left; height: 0; pointer-events: none; color: #b1b7ae; font-weight: normal; text-transform: none; }
-.screenplay-page ::selection { background: #dce8da; }
+
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+}
+
+.editor-view {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  justify-content: center;
+  overflow: auto;
+  padding: 32px;
+}
+
+.screenplay-page-stack {
+  width: 8.5in;
+  position: relative;
+  box-sizing: border-box;
+  background: #e5e5e5;
+}
+
+.screenplay-page {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    white 0,
+    white 11in,
+    #e5e5e5 11in,
+    #e5e5e5 13in
+  );
+  background-size: 100% 13in;
+}
+
+.screenplay-page > div {
+  position: relative;
+  min-height: 100%;
+  line-height: 16px;
+}
+
+.rust-layout-block {
+  overflow-wrap: anywhere;
+}
+
+.screenplay-page-number {
+  position: absolute;
+  right: 1.5in;
+  font-size: 12pt;
+  font-family: 'Courier New', Courier, monospace;
+  pointer-events: none;
+  z-index: 2;
+}
+
 @media print {
-  @page { size: letter; margin: 0; }
-  .app { display: block; height: auto; overflow: visible; }
-  .document-header, .toolbar, .scene-navigator, .status-bar, .page-ruler, .paper-caption { display: none !important; }
-  .document-workspace { padding: 0; overflow: visible; }
-  .page-surround { zoom: 1 !important; }
-  .screenplay-page { box-shadow: none; border: 0; }
+  .toolbar,
+  .screenplay-page-number {
+    display: none;
+  }
+
+  @page {
+    margin: 1in 1in 1in 1.5in;
+  }
 }

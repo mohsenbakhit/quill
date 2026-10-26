@@ -1,13 +1,18 @@
-pub mod export;
+// Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
+mod layout;
+mod pdf;
+mod screenplay;
+use layout::ScreenplayLayout;
+use screenplay::Block;
 
 #[tauri::command]
-fn export_fountain(document: serde_json::Value) -> Result<String, String> {
-    export::fountain(&document)
+async fn export_to_pdf(screenplay: Vec<Block>, output_path: String) -> Result<(), String> {
+    pdf::export(screenplay, std::path::Path::new(&output_path)).map_err(|error| error.to_string())
 }
 
 #[tauri::command]
-fn export_pdf(document: serde_json::Value) -> Result<Vec<u8>, String> {
-    export::pdf(&document)
+fn layout_screenplay(screenplay: Vec<Block>) -> ScreenplayLayout {
+    layout::layout(&screenplay)
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
@@ -16,7 +21,7 @@ pub fn run() {
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![export_fountain, export_pdf])
+        .invoke_handler(tauri::generate_handler![export_to_pdf, layout_screenplay,])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

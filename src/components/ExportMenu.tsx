@@ -1,38 +1,70 @@
-import { useRef, useState } from 'react'
-import type { Editor } from '@tiptap/react'
-import { exportDocument, type ExportFormat } from '../lib/export'
-import { getErrorMessage } from '../utils/utils'
-import { DropdownMenu } from './DropdownMenu'
+import { useState } from "react";
+import { exportToFountain, formatEditorContent } from "../utils/export";
+import { FileMenuProps } from "../utils/interfaces";
+import { save, message } from '@tauri-apps/plugin-dialog';
+import { writeTextFile } from '@tauri-apps/plugin-fs';
+import { invoke } from "@tauri-apps/api/core";
 
-export function ExportMenu({ editor, documentName = 'Untitled screenplay' }: { editor: Editor | null; documentName?: string }) {
-  const [busy, setBusy] = useState(false)
-  const [feedback, setFeedback] = useState<{ text: string; error: boolean } | null>(null)
-  const pending = useRef(false)
+export function ExportMenu({ editor }: FileMenuProps) {
+  const [isOpen, setIsOpen] = useState(false);
 
-  async function handleExport(format: ExportFormat) {
-    if (!editor || pending.current) return
-    pending.current = true
-    setBusy(true)
-    setFeedback(null)
+  if (!editor) return null;
+
+  const handleFountain = async () => {
     try {
-      if (await exportDocument(editor.getJSON(), format, documentName)) {
-        setFeedback({ text: `${format === 'pdf' ? 'PDF' : 'Fountain'} exported.`, error: false })
-      }
-    } catch (error) {
-      setFeedback({ text: getErrorMessage(error), error: true })
+      const content = exportToFountain(editor.getJSON());
+
+      const path = await save({
+        filters: [{ name: 'Fountain', extensions: ['fountain'] }],
+      })
+      if (path === null) return;
+
+      await writeTextFile(path, content)
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      await message(msg, { title: 'Export Failed', kind: 'error' })
     } finally {
-      pending.current = false
-      setBusy(false)
+      setIsOpen(false);
     }
   }
 
-  return <div className="menu-group">
-    <DropdownMenu label={busy ? 'Exporting…' : 'Export'} disabled={!editor || busy} items={[
-      { label: 'Export to PDF', onSelect: () => { void handleExport('pdf') } },
-      { label: 'Export to Fountain', onSelect: () => { void handleExport('fountain') } },
-    ]} />
-    {feedback && <div className={`menu-feedback${feedback.error ? ' is-error' : ''}`} role={feedback.error ? 'alert' : 'status'}>
-      <span>{feedback.text}</span><button type="button" aria-label="Dismiss export message" onClick={() => setFeedback(null)}>×</button>
-    </div>}
-  </div>
+
+    const handlePdf = async () => {
+        try {
+            const path = await save({
+                filters: [{ name: 'PDF', extensions: ['pdf'] }],
+            });
+            if (path === null) return;
+
+            const content = formatEditorContent(editor.getJSON());
+            await invoke("export_to_pdf", {
+                screenplay: content,
+                outputPath: path,
+            });
+        } catch (err) {
+            const msg = err instanceof Error ? err.message : String(err);
+            await message(msg, { title: 'PDF Export Failed', kind: 'error' });
+        } finally {
+            setIsOpen(false);
+        }
+    }
+  return (
+    <span className="toolbar-menu">
+      <button
+        type="button"
+        onClick={() => setIsOpen(!isOpen)}
+        className={`toolbar-action-button${isOpen ? ' active' : ''}`}
+        aria-expanded={isOpen}
+      >
+        Export
+      </button>
+      {isOpen && (
+        <div className="dropdown-menu">
+              <button type="button" onClick={handlePdf} className="dropdown-button">Export to PDF</button>
+          {/*<button className="dropdown-button w-full text-left px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100">Export to FDX</button>*/}
+          <button type="button" onClick={handleFountain} className="dropdown-button">Export to Fountain</button>
+        </div>
+      )}
+    </span>
+  )
 }
