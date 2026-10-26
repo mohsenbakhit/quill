@@ -12,7 +12,11 @@
   "app": {
     "windows": [
       {
-        "title": "quill"
+        "title": "Quill",
+        "width": 1240,
+        "height": 900,
+        "minWidth": 600,
+        "minHeight": 480
       }
     ],
     "security": {

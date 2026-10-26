@@ -1,40 +1,40 @@
-@import "tailwindcss";
 @font-face {
   font-family: 'Courier Prime';
   src: url('/fonts/CourierPrime-Regular.ttf') format('truetype');
-}
-body {
-  font-family: 'Courier Prime','Courier New', monospace;
-  font-size: 12pt;
+  font-display: swap;
 }
 .screenplay-page {
-    padding: 1in 1in 1in 1.5in; /* top right bottom left */
-    width: 11in;
-    margin-left: auto;
-    margin-right: auto;
+  width: 8.5in;
+  min-height: 11in;
+  padding: 1in 1in 1in 1.5in;
+  background: #fff;
+  outline: 1px solid #e0dfda;
+  box-shadow: 0 2px 8px #30342b0b, 0 16px 36px #30342b04;
+  color: #202520;
+  font-family: 'Courier Prime', 'Courier New', Courier, monospace;
+  font-size: 12pt;
+  line-height: 1;
 }
-.screenplay-scene-heading {
-    text-transform: uppercase;
-    margin-left: 0;
-    margin-right: auto;
-
-}
-.screenplay-action {
-  margin-left: 0;      /* matches container's 1.5" baseline */
-}
-
-.screenplay-dialogue {
-  margin-left: 1in;    /* 2.5" − 1.5" baseline */
-  max-width: 4in;       /* 8.5" page − 2.5" left − 2.0" right */
-}
-
-.screenplay-parenthetical {
-  margin-left: 1.6in;  /* 3.1" − 1.5" baseline */
-  max-width: 2.9in;     /* 8.5" page − 3.1" left − 2.5" right */
-  font-style: italic;
-}
-
-.screenplay-transition {
-  text-transform: uppercase;
-  text-align: right;    /* 5.5" left / 1.0" right ≈ right-aligned within the baseline margins already, no offset needed */
+.screenplay-page .tiptap { outline: none; min-height: 9in; caret-color: #355d4f; }
+.screenplay-page .tiptap > div { position: relative; min-height: 1em; white-space: pre-wrap; overflow-wrap: anywhere; }
+.screenplay-page .tiptap > div + div { margin-top: 1em; }
+.screenplay-page .tiptap > div + .screenplay-scene-heading { margin-top: 2em; }
+.screenplay-page .screenplay-scene-heading, .screenplay-page .screenplay-character, .screenplay-page .screenplay-transition { text-transform: uppercase; }
+.screenplay-page .screenplay-character { margin-left: 2in; max-width: 4in; }
+.screenplay-page .screenplay-dialogue { margin-left: 1in; max-width: 3.5in; }
+.screenplay-page .screenplay-parenthetical { margin-left: 1.5in; max-width: 2.5in; }
+.screenplay-page .screenplay-character + .screenplay-dialogue,
+.screenplay-page .screenplay-character + .screenplay-parenthetical,
+.screenplay-page .screenplay-parenthetical + .screenplay-dialogue,
+.screenplay-page .screenplay-dialogue + .screenplay-parenthetical { margin-top: 0 !important; }
+.screenplay-page .screenplay-transition { text-align: right; }
+.screenplay-page .is-empty::before { content: attr(data-placeholder); float: left; height: 0; pointer-events: none; color: #b1b7ae; font-weight: normal; text-transform: none; }
+.screenplay-page ::selection { background: #dce8da; }
+@media print {
+  @page { size: letter; margin: 0; }
+  .app { display: block; height: auto; overflow: visible; }
+  .document-header, .toolbar, .scene-navigator, .status-bar, .page-ruler, .paper-caption { display: none !important; }
+  .document-workspace { padding: 0; overflow: visible; }
+  .page-surround { zoom: 1 !important; }
+  .screenplay-page { box-shadow: none; border: 0; }
 }

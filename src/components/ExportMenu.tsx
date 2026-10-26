@@ -1,24 +1,38 @@
-import { useState, useEffect } from "react";
+import { useRef, useState } from 'react'
+import type { Editor } from '@tiptap/react'
+import { exportDocument, type ExportFormat } from '../lib/export'
+import { getErrorMessage } from '../utils/utils'
+import { DropdownMenu } from './DropdownMenu'
 
-function handleOpen() {
-}
-function handleSave() {
-}
-function handleNew() {
-}
+export function ExportMenu({ editor, documentName = 'Untitled screenplay' }: { editor: Editor | null; documentName?: string }) {
+  const [busy, setBusy] = useState(false)
+  const [feedback, setFeedback] = useState<{ text: string; error: boolean } | null>(null)
+  const pending = useRef(false)
 
-export function ExportMenu() {
-  const [isOpen, setIsOpen] = useState(false)
-  return (
-    <span className="toolbar-menu">
-      <button onClick={() => setIsOpen(!isOpen)} className="px-3 py-1.5 text-lg rounded bg-gray-300 hover:bg-gray-100 text-gray-700">Export</button>
-      {isOpen && (
-        <div className="dropdown-menu">
-          <button onClick={handleNew} className="dropdown-button w-full text-left px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100">Export to PDF</button>
-          <button onClick={handleOpen} className="dropdown-button w-full text-left px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100">Export to FDX</button>
-          <button onClick={handleSave} className="dropdown-button w-full text-left px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-100">Export to Fountain</button>
-        </div>
-      )}
-    </span>
-  )
+  async function handleExport(format: ExportFormat) {
+    if (!editor || pending.current) return
+    pending.current = true
+    setBusy(true)
+    setFeedback(null)
+    try {
+      if (await exportDocument(editor.getJSON(), format, documentName)) {
+        setFeedback({ text: `${format === 'pdf' ? 'PDF' : 'Fountain'} exported.`, error: false })
+      }
+    } catch (error) {
+      setFeedback({ text: getErrorMessage(error), error: true })
+    } finally {
+      pending.current = false
+      setBusy(false)
+    }
+  }
+
+  return <div className="menu-group">
+    <DropdownMenu label={busy ? 'Exporting…' : 'Export'} disabled={!editor || busy} items={[
+      { label: 'Export to PDF', onSelect: () => { void handleExport('pdf') } },
+      { label: 'Export to Fountain', onSelect: () => { void handleExport('fountain') } },
+    ]} />
+    {feedback && <div className={`menu-feedback${feedback.error ? ' is-error' : ''}`} role={feedback.error ? 'alert' : 'status'}>
+      <span>{feedback.text}</span><button type="button" aria-label="Dismiss export message" onClick={() => setFeedback(null)}>×</button>
+    </div>}
+  </div>
 }

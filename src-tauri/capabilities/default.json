@@ -5,7 +5,9 @@
   "windows": ["main"],
   "permissions": [
     "core:default",
+    "core:window:allow-close",
     "fs:allow-write-text-file",
+    "fs:allow-write-file",
     "fs:allow-read-text-file",
     "dialog:allow-save",
     "dialog:allow-open",

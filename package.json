@@ -7,7 +7,14 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:rust": "cargo test --manifest-path src-tauri/Cargo.toml",
+    "test:all": "npm test && npm run test:rust && npm run test:exports",
+    "check:rust": "cargo fmt --manifest-path src-tauri/Cargo.toml --check && cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets -- -D warnings",
+    "test:exports": "node --test scripts/export.integration.test.mjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.3.3",
@@ -15,20 +22,32 @@
     "@tauri-apps/plugin-dialog": "^2.7.2",
     "@tauri-apps/plugin-fs": "^2.5.1",
     "@tauri-apps/plugin-opener": "^2",
-    "@tiptap/extension-placeholder": "^3.28.0",
-    "@tiptap/extension-text": "^3.28.0",
-    "@tiptap/pm": "^3.28.0",
-    "@tiptap/react": "^3.28.0",
+    "@tiptap/core": "^3.32.0",
+    "@tiptap/extension-placeholder": "^3.32.0",
+    "@tiptap/extension-text": "^3.32.0",
+    "@tiptap/extensions": "^3.32.0",
+    "@tiptap/pm": "^3.32.0",
+    "@tiptap/react": "^3.32.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.8",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.6.0",
+    "@vitest/coverage-v8": "^4.1.12",
+    "fountain-js": "^1.2.4",
+    "jsdom": "^26.1.0",
     "typescript": "~5.8.3",
-    "vite": "^7.0.4"
+    "vite": "^7.0.4",
+    "vitest": "^4.1.12"
+  },
+  "engines": {
+    "node": ">=22.12"
   }
 }

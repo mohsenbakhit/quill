@@ -1,22 +1,35 @@
-.heading {
-    padding: 0.5in 1in;
-    font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
-}
-.heading h1{
-    font-size: 24pt;
-}
-
-.toolbar-menu {
-    position: relative;
-    margin: 15pt;
-}
-
-.dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-}
-
-.dropdown-button {
-    margin-top: 5pt;
-}
+.toolbar { min-height: 52px; padding: 8px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; background: #fcfcfa; border-bottom: 1px solid #dedfd8; flex-shrink: 0; z-index: 10; }
+.toolbar-group { display: flex; align-items: center; gap: 5px; }
+.toolbar-divider { width: 1px; height: 18px; background: var(--line); margin: 0 9px; }
+.toolbar-menu, .menu-group { position: relative; display: inline-flex; }
+.menu-trigger, .icon-button, .dropdown-button { background: transparent; border: 0; border-radius: 4px; }
+.menu-trigger { padding: 8px 10px; font-size: 12px; display: inline-flex; align-items: center; gap: 7px; }
+.menu-chevron { font-size: 10px; color: #92978e; }
+.menu-trigger:hover, .menu-trigger[aria-expanded=true], .icon-button:hover { background: #eeefe9; }
+.icon-button { display: inline-flex; align-items: center; justify-content: center; width: 31px; height: 31px; color: #667066; }
+.icon-button svg { width: 18px; height: 18px; }
+.icon-button.selected { color: #45664e; background: #e9eee5; }
+.dropdown-menu { position: absolute; left: 0; top: calc(100% + 8px); min-width: 190px; background: #fff; border: 1px solid #e1e5db; padding: 5px; border-radius: 7px; box-shadow: 0 8px 30px #273b2820; z-index: 30; }
+.dropdown-button { display: flex; justify-content: space-between; align-items: center; gap: 18px; width: 100%; text-align: left; padding: 10px 12px; font-size: 12px; white-space: nowrap; }
+.dropdown-button:hover, .dropdown-button:focus-visible { background: #edf2e8; }
+.dropdown-button kbd { color: #92998c; border: 0; background: none; }
+.element-control { display: flex; gap: 10px; align-items: center; }
+.control-label { font-size: 10px; color: #969b92; }
+.element-control select, .zoom-control { border: 1px solid #dde2d7; border-radius: 4px; background: #fff; padding: 6px 8px; color: #4d594d; font-size: 11px; }
+.element-control select { min-width: 140px; }
+.font-indicator { color: #7b8377; font-size: 11px; white-space: nowrap; }
+.font-indicator span { margin-left: 16px; }
+.zoom-control { border-color: transparent; background: transparent; }
+.menu-feedback { position: fixed; bottom: 48px; left: 50%; transform: translateX(-50%); max-width: min(520px, 90vw); background: #fff; color: #475642; border: 1px solid #dce4d5; border-radius: 7px; padding: 13px 18px; box-shadow: 0 5px 24px #26332215; font-size: 12px; z-index: 50; }
+.menu-feedback.is-error, .menu-feedback[role=alert] { color: #8c4534; }
+.menu-feedback { display: flex; gap: 18px; align-items: center; }
+.menu-feedback button { border: 0; background: transparent; font-size: 18px; padding: 0 3px; }
+.dialog-backdrop { position: fixed; inset: 0; display: grid; place-items: center; background: #26302542; z-index: 60; padding: 24px; }
+.document-dialog { background: #fff; border: 1px solid #dfe4d9; border-radius: 10px; padding: 28px; box-shadow: 0 15px 70px #152d2033; width: min(420px, 100%); }
+.document-dialog h2 { font-size: 18px; font-weight: 600; margin: 0 0 12px; }
+.document-dialog p { font-size: 13px; line-height: 1.7; color: #767e70; }
+.dialog-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 24px; }
+.dialog-actions button { font-size: 12px; border: 1px solid #dce1d5; border-radius: 5px; padding: 8px 12px; background: #fff; }
+.dialog-actions .primary, .dialog-actions .primary-button { background: #355d4f; border-color: #355d4f; color: #fff; }
+@media (max-width: 900px) { .control-label, .formatting-tools > .toolbar-divider { display: none; } .toolbar { gap: 8px; padding-inline: 14px; } }
+@media (max-width: 600px) { .toolbar { flex-wrap: wrap; } .formatting-tools { order: 3; width: 100%; padding-top: 5px; border-top: 1px solid var(--line); } .element-control { width: 100%; } .element-control select { width: 100%; } .view-tools { margin-left: auto; } .toolbar-divider { margin: 0 4px; } }
