@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { exportToFountain, formatEditorContent } from "../utils/export";
-import { FileMenuProps } from "../utils/interfaces";
+import type { ExportMenuProps } from "../utils/interfaces";
 import { save, message } from '@tauri-apps/plugin-dialog';
 import { writeTextFile } from '@tauri-apps/plugin-fs';
 import { invoke } from "@tauri-apps/api/core";
 
-export function ExportMenu({ editor }: FileMenuProps) {
+export function ExportMenu({ editor }: ExportMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   if (!editor) return null;

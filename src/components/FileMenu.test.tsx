@@ -198,7 +198,7 @@ describe('File menu', () => {
     const { select, editor } = setup()
     act(() => { editor.commands.insertContent('Unrelated edit ') })
     await select(/^Open/)
-    expect(editor.can().undo()).toBe(false)
+    expect((editor.can() as unknown as { undo: () => boolean }).undo()).toBe(false)
   })
   it('supports Cmd/Ctrl shortcuts and Shift+Save as', async () => {
     setup()

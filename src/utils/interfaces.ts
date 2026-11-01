@@ -7,3 +7,10 @@ export interface FileMenuProps {
   documentName?: string
   onDocumentChange?: (name: string) => void
 }
+
+export interface ExportMenuProps {
+  editor: Editor | null
+  documentName?: string
+  isDirty?: boolean
+  setIsDirty?: (dirty: boolean) => void
+}
