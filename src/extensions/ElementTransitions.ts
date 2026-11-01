@@ -1,4 +1,6 @@
 import { Extension } from '@tiptap/core'
+import { Fragment, Slice } from '@tiptap/pm/model'
+import { Plugin, TextSelection } from '@tiptap/pm/state'
 
 const ENTER_MAP: Record<string, string> = {
   sceneHeading: 'action',
@@ -10,9 +12,25 @@ const ENTER_MAP: Record<string, string> = {
 }
 
 const TAB_MAP: Record<string, string> = {
+  sceneHeading: 'action',
   action: 'character',
   character: 'parenthetical',
   dialogue: 'parenthetical',
+  parenthetical: 'dialogue',
+  transition: 'sceneHeading',
+}
+
+const SHIFT_TAB_MAP: Record<string, string> = {
+  sceneHeading: 'transition',
+  action: 'sceneHeading',
+  character: 'action',
+  dialogue: 'character',
+  parenthetical: 'dialogue',
+  transition: 'dialogue',
+}
+
+function textNode(editor: { schema: { text: (text: string) => unknown } }, text: string) {
+  return text ? editor.schema.text(text) : undefined
 }
 
 export const ElementTransitions = Extension.create({
@@ -21,21 +39,62 @@ export const ElementTransitions = Extension.create({
   addKeyboardShortcuts() {
     return {
       Enter: () => {
-        const { $from } = this.editor.state.selection
+        const { from, to, $from } = this.editor.state.selection
         const type = $from.parent.type.name
         const next = ENTER_MAP[type]
         if (!next) return false
-        return this.editor.chain().splitBlock().setNode(next).run()
+
+        const start = $from.start()
+        const nodeStart = $from.before()
+        const nodeEnd = $from.after()
+        const before = $from.parent.textContent.slice(0, from - start)
+        const after = $from.parent.textContent.slice(to - start)
+        const currentNodeType = this.editor.state.schema.nodes[type]
+        const nextNodeType = this.editor.state.schema.nodes[next]
+
+        if (!currentNodeType || !nextNodeType) return false
+
+        const currentNode = currentNodeType.create(null, textNode(this.editor.state, before))
+        const nextNode = nextNodeType.create(null, textNode(this.editor.state, after))
+        const tr = this.editor.state.tr
+        tr.replaceWith(nodeStart, nodeEnd, currentNode)
+        tr.insert(nodeStart + currentNode.nodeSize, nextNode)
+        tr.setSelection(TextSelection.create(tr.doc, nodeStart + currentNode.nodeSize + 1))
+        tr.scrollIntoView()
+
+        this.editor.view.dispatch(tr)
+        return true
       },
       Tab: () => {
         const { $from } = this.editor.state.selection
         const type = $from.parent.type.name
         const next = TAB_MAP[type]
-        if (next) {
-          this.editor.commands.setNode(next)
-        }
+        if (next) this.editor.commands.setNode(next)
+        return true // always swallow Tab so focus doesn't leave the editor
+      },
+      'Shift-Tab': () => {
+        const { $from } = this.editor.state.selection
+        const type = $from.parent.type.name
+        const next = SHIFT_TAB_MAP[type]
+        if (next) this.editor.commands.setNode(next)
         return true // always swallow Tab so focus doesn't leave the editor
       },
     }
+  },
+
+  addProseMirrorPlugins() {
+    return [
+      new Plugin({
+        props: {
+          clipboardTextParser: (text, $context) => {
+            const blockType = $context.parent.type
+            if (!blockType.isTextblock) return null
+            const lines = text.replace(/\r\n?/g, '\n').split('\n')
+            const nodes = lines.map(line => blockType.create(null, textNode(this.editor.state, line)))
+            return new Slice(Fragment.fromArray(nodes), 0, 0)
+          },
+        },
+      }),
+    ]
   },
 })
