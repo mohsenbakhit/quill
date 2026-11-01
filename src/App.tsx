@@ -20,7 +20,7 @@ function App() {
     content: {
       type: 'doc',
       content: [
-        { type: 'sceneHeading', content: [{ type: 'text*', text: 'INT. COFFEE SHOP - DAY' }] },
+        { type: 'sceneHeading', content: [{ type: 'text', text: 'INT. COFFEE SHOP - DAY' }] },
       ],
     },
     onUpdate: () => {
