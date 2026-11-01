@@ -1,5 +1,5 @@
 import { Extension } from '@tiptap/core'
-import { Fragment, Slice } from '@tiptap/pm/model'
+import { Fragment, Slice, type Schema } from '@tiptap/pm/model'
 import { Plugin, TextSelection } from '@tiptap/pm/state'
 
 const ENTER_MAP: Record<string, string> = {
@@ -29,8 +29,8 @@ const SHIFT_TAB_MAP: Record<string, string> = {
   transition: 'dialogue',
 }
 
-function textNode(editor: { schema: { text: (text: string) => unknown } }, text: string) {
-  return text ? editor.schema.text(text) : undefined
+function textNode(schema: Schema, text: string) {
+  return text ? schema.text(text) : undefined
 }
 
 export const ElementTransitions = Extension.create({
@@ -54,8 +54,8 @@ export const ElementTransitions = Extension.create({
 
         if (!currentNodeType || !nextNodeType) return false
 
-        const currentNode = currentNodeType.create(null, textNode(this.editor.state, before))
-        const nextNode = nextNodeType.create(null, textNode(this.editor.state, after))
+        const currentNode = currentNodeType.create(null, textNode(this.editor.state.schema, before))
+        const nextNode = nextNodeType.create(null, textNode(this.editor.state.schema, after))
         const tr = this.editor.state.tr
         tr.replaceWith(nodeStart, nodeEnd, currentNode)
         tr.insert(nodeStart + currentNode.nodeSize, nextNode)
@@ -88,9 +88,10 @@ export const ElementTransitions = Extension.create({
         props: {
           clipboardTextParser: (text, $context) => {
             const blockType = $context.parent.type
-            if (!blockType.isTextblock) return null
+            // ProseMirror falls back to its default parser on a falsy result, but the typings require a Slice.
+            if (!blockType.isTextblock) return null as unknown as Slice
             const lines = text.replace(/\r\n?/g, '\n').split('\n')
-            const nodes = lines.map(line => blockType.create(null, textNode(this.editor.state, line)))
+            const nodes = lines.map(line => blockType.create(null, textNode(this.editor.state.schema, line)))
             return new Slice(Fragment.fromArray(nodes), 0, 0)
           },
         },
